@@ -22,6 +22,7 @@
   "private": true,
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@rails/webpacker": "5.4.0",
     "axios": "^0.21.1",
     "loglevel": "^1.7.1",
     "loglevel-plugin-prefix": "^0.8.4",
@@ -68,8 +69,9 @@
     "stylelint-bare-webpack-plugin": "^2.1.0",
     "stylelint-config-standard": "^20.0.0",
     "terser-webpack-plugin": "^4.2.2",
-    "webpack": "^4.44.2",
+    "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.2",
     "webpack-manifest-plugin": "^2.2.0"
   }
 }

@@ -9,7 +9,7 @@ class CreatePresentations < ActiveRecord::Migration[6.0]
       t.references :demo, foreign_key: true, null: false
       t.integer :active_slide_id, null: true
 
-      t.json :presented_slides, default: '[]'
+      t.json :presented_slides, default: []
 
       t.timestamps
     end

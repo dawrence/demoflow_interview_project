@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2021_07_05_044040) do
     t.datetime "end_at"
     t.bigint "demo_id", null: false
     t.integer "active_slide_id"
-    t.json "presented_slides", default: "[]"
+    t.json "presented_slides", default: []
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["active_slide_id"], name: "index_presentations_on_active_slide_id"

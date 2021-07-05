@@ -1,9 +1,13 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe PresentationsController, type: :controller do
   let!(:demo) { create(:demo) }
-  let!(:slide_one) { create(:web_slide, demo: demo) }
+  let!(:slide_one) { create(:slide, :web, demo: demo) }
   let(:json_body) { JSON.parse(response.body) }
+  let(:now) { Time.now }
 
   describe 'POST #create' do
     context 'with demo' do
@@ -12,7 +16,7 @@ RSpec.describe PresentationsController, type: :controller do
       end
 
       it 'creates a presentation for the demo' do
-        expect { post :create, params: params }.to change(Presentation).by(1)
+        expect { post :create, params: params }.to change { Presentation.count }.by(1)
       end
 
       context 'when presentation is created' do
@@ -23,7 +27,7 @@ RSpec.describe PresentationsController, type: :controller do
         end
 
         it 'assigns presentation to actual demo' do
-          expect(presentation.id).to eq(json_body['presentation']['id'])
+          expect(presentation.id).to eq(json_body['id'])
         end
 
         it 'start_at is assigned' do
@@ -49,7 +53,6 @@ RSpec.describe PresentationsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let(:now) { Time.now }
     let!(:presentation) { create(:presentation, start_at: now, demo: demo) }
     let(:params) { { id: presentation.id } }
 
@@ -62,23 +65,23 @@ RSpec.describe PresentationsController, type: :controller do
         {
           id: presentation.id,
           presentation: {
-            end_at: Time.now + 1.hour
+            end_at: true
           }
         }
       end
 
       it 'assigns an end_date' do
-        expect(presentation.reload.end_date).not_to be_nil
+        expect(presentation.reload.end_at).not_to be_nil
       end
 
       it 'returns amount of time' do
-        expect(json_body['presentation']['presentation_time']).not_to be_nil
-        expect(json_body['presentation']['presentation_time']).to eq('1 hour') # ??
+        expect(json_body['time_spent']).not_to be_nil
+        expect(json_body['time_spent']).to eq('less than a minute')
       end
     end
 
     context 'when updating active_slide' do
-      let(:slide_two) { create(:html_slide, demo: demo) }
+      let(:slide_two) { create(:slide, :html, demo: demo) }
 
       let(:params) do
         {
@@ -112,6 +115,8 @@ RSpec.describe PresentationsController, type: :controller do
   end
 
   describe 'GET #show' do
+    let!(:presentation) { create(:presentation, start_at: now, demo: demo) }
+
     let(:params) do
       {
         id: presentation.id
@@ -123,17 +128,18 @@ RSpec.describe PresentationsController, type: :controller do
     end
 
     it 'returns payload' do
-      expect(response).to be_success
-      expect(json_body['presentation']).not_to be_nil
+      expect(response).to be_successful
+      expect(json_body).not_to be_nil
     end
 
     context 'when there is no presentation http 404' do
       let(:params) { { id: '3232' } }
 
       it 'returns empty payload' do
-        expect(response).to be_success
-        expect(json_body['presentation']).to be_nil
+        expect(response).to be_successful
+        expect(json_body).to be_nil
       end
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
