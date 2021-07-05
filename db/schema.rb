@@ -10,9 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_17_050131) do
+ActiveRecord::Schema.define(version: 2021_07_05_044040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "demos", force: :cascade do |t|
+    t.string "title", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "presentations", force: :cascade do |t|
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.bigint "demo_id", null: false
+    t.integer "active_slide_id"
+    t.json "presented_slides", default: "[]"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["active_slide_id"], name: "index_presentations_on_active_slide_id"
+    t.index ["demo_id"], name: "index_presentations_on_demo_id"
+  end
+
+  create_table "slides", force: :cascade do |t|
+    t.string "type", null: false
+    t.string "content"
+    t.bigint "demo_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["demo_id"], name: "index_slides_on_demo_id"
+  end
+
+  add_foreign_key "presentations", "demos"
+  add_foreign_key "slides", "demos"
 end

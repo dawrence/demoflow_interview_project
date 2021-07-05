@@ -21,6 +21,13 @@ gem 'uglifier', '>= 4.1.20'
 gem 'coffee-rails', '~> 5.0.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+gem 'active_model_serializers', '~> 0.10.0'
+gem 'webpacker'
+gem 'goldiloader'
+gem 'rubocop'
+
+gem 'rswag-api'
+gem 'rswag-ui'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -39,6 +46,7 @@ gem 'jbuilder', '~> 2.5'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'rspec-rails', '~> 3.7'
 end
 
 group :development do
@@ -48,6 +56,16 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+end
+
+group :test do
+  gem 'shoulda-matchers', '~> 4.0'
+  # Adds support for Capybara system testing and selenium driver
+  gem 'capybara', '>= 2.15'
+  gem 'factory_bot_rails'
+  gem 'selenium-webdriver'
+  # Easy installation and use of chromedriver to run system tests with Chrome
+  gem 'chromedriver-helper'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
