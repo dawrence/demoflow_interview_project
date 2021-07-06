@@ -3,11 +3,13 @@
 # Presentation
 class Presentation < ApplicationRecord
   belongs_to :demo
-  belongs_to :active_slide, class_name: 'Slide'
+  belongs_to :active_slide, class_name: 'Slide', optional: true
 
   before_validation :set_active_slide, on: [:create]
 
   def set_active_slide
+    return if demo.slides.blank?
+
     self.active_slide_id = demo.slides.first.id
     presented_slides << { id: demo.slides.first.id, start_at: Time.zone.now }
   end

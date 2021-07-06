@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 # rubocop:disable Metrics/BlockLength
-RSpec.describe PresentationsController, type: :controller do
+RSpec.describe Api::V1::PresentationsController, type: :controller do
   let!(:demo) { create(:demo) }
   let!(:slide_one) { create(:slide, :web, demo: demo) }
   let(:json_body) { JSON.parse(response.body) }

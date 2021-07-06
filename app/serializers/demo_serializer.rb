@@ -2,5 +2,7 @@
 
 # Demo Serializer class
 class DemoSerializer < ActiveModel::Serializer
-  attributes :id, :title
+  attributes :id, :title, :slides
+
+  has_many :slides
 end

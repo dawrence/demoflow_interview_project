@@ -4,7 +4,14 @@
 class PresentationSerializer < ActiveModel::Serializer
   include ActionView::Helpers::DateHelper
 
-  attributes :id, :start_at, :end_at, :active_slide_id, :presented_slides, :time_spent
+  attributes :id, :start_at, :end_at, :active_slide_id, :presented_slides, :time_spent, :slides
+
+  belongs_to :demo
+  belongs_to :active_slide
+
+  def slides
+    object.demo&.slides
+  end
 
   def time_spent
     return '' if object.start_at.blank? || object.end_at.blank?
